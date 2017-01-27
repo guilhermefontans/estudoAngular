@@ -22,7 +22,7 @@
                 color: white;
             }
         </style>
-        <script sc="js/angular/angular.min.js"></script>
+        <script src="js/angular/angular.min.js"></script>
         <script type="text/javascript">
             angular.module("listaTelefonica", []);
             angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function ($scope) {
@@ -70,7 +70,7 @@
                    <th>Cor</th>
                </tr> 
                <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos">
-                   <td><input type="checkbox" ng-model="contato.selecionado"></input></td>
+                   <td><input type="checkbox" ng-model="contato.selecionado"/></td>
                    <td>{{contato.nome}}</td>
                    <td>{{contato.telefone}}</td>
                    <td>{{contato.operadora.nome}}</td>
