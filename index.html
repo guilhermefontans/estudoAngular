@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="bootstrap/css/bootstrap.css" type="text/css">
         <style type="text/css" media="screen">
             .jumbotron {
-                width: 500px;
+                width: 700px;
                 text-align: center;
                 margin-top: 10px;
                 margin-left: auto;
@@ -29,9 +29,9 @@
             angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function ($scope) {
                 $scope.app = "Lista Telefonica";
                 $scope.contatos = [
-                    {nome: "Pedro", telefone: "9999-9999", cor: "yellow"},
-                    {nome: "Maria", telefone: "9999-8888", cor: "red"},
-                    {nome: "João", telefone: "9999-7777", cor : "blue"}
+                    {nome: "Pedro", telefone: "9999-9999", cor: "yellow", data: new Date()},
+                    {nome: "Maria", telefone: "9999-8888", cor: "red", data: new Date()},
+                    {nome: "João", telefone: "9999-7777", cor : "blue", data: new Date()}
                 ];
                 $scope.operadoras = [
                     {nome: "OI", codigo: 14, categoria: "celular"},
@@ -56,26 +56,33 @@
                     });
                 };
                 $scope.selecionado = "selecionado";
+                $scope.ordenarPor = function(campo) {
+                    $scope.criterioDeOrdenacao = campo;
+                    $scope.direcaoDaOrdenacao = !$scope.direcaoDaOrdenacao;
+                }
             });
         </script>
     </head>
     <body ng-controller="listaTelefonicaCtrl">
        <div class="jumbotron">
            <h4 ng-bind="app"></h4>
+               <input type="text" placeholder="O quê você procura?" class="form-control" ng-model="criterioBusca"/>
            <table ng-show="contatos.length > 0"class="table">
                <tr>
                    <th>Selecionado</th>
-                   <th>Nome</th>
-                   <th>Telefone</th>
+                   <th><a href="" ng-click="ordenarPor('nome')">Nome</a></th>
+                   <th><a href="" ng-click="ordenarPor('telefone')">Telefone</a></th>
                    <th>Operadora</th>
                    <th>Cor</th>
+                   <th>Data</th>
                </tr> 
-               <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos">
+               <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos | filter: {nome :criterioBusca} | orderBy : criterioDeOrdenacao:direcaoDaOrdenacao">
                    <td><input type="checkbox" ng-model="contato.selecionado"/></td>
-                   <td>{{contato.nome}}</td>
+                   <td>{{contato.nome | uppercase}}</td>
                    <td>{{contato.telefone}}</td>
                    <td>{{contato.operadora.nome}}</td>
                    <td><div style="width=10px; height:10px;" ng-style="{'background-color': contato.cor}"></div></td>
+                   <td>{{contato.data | date: 'dd/MM/yyyy'}}</td>
                </tr>
            </table>
            <hr />
